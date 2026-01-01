@@ -1,0 +1,14 @@
+# Downloaded libraries (users must download these themselves)
+# Keep placeholder files, but ignore actual downloaded versions
+# Comment these out if you want to commit the actual libraries:
+# acas-extension/CommLinkjs.js
+# acas-extension/UniversalBoardDrawerjs.js
+
+# Temporary files
+/tmp/
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

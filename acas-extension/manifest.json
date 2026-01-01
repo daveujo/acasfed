@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "A.C.A.S (Advanced Chess Assistance System)",
+  "version": "2.3.7",
+  "description": "Enhance your chess performance with a cutting-edge real-time move analysis and strategy assistance system",
+  "icons": {
+    "48": "icon.svg",
+    "96": "icon.svg",
+    "192": "icon.svg"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://federico98x.github.io/CHESS/*",
+    "http://localhost:*/*",
+    "http://127.0.0.1:*/*",
+    "http://[::1]:*/*",
+    "https://www.chess.com/*",
+    "https://lichess.org/*",
+    "https://playstrategy.org/*",
+    "https://www.pychess.org/*",
+    "https://chess.org/*",
+    "https://papergames.io/*",
+    "https://vole.wtf/*",
+    "https://chess.coolmathgames.com/*",
+    "https://www.coolmathgames.com/*",
+    "https://immortal.game/*",
+    "https://worldchess.com/*",
+    "http://chess.net/*",
+    "https://chess.net/*",
+    "https://www.freechess.club/*",
+    "https://*.chessclub.com/*",
+    "https://gameknot.com/*",
+    "https://chesstempo.com/*",
+    "https://www.redhotpawn.com/*",
+    "https://www.chessanytime.com/*",
+    "https://www.simplechess.com/*",
+    "https://chessworld.net/*",
+    "https://app.edchess.io/*",
+    "ws://localhost:*/*",
+    "wss://localhost:*/*",
+    "ws://127.0.0.1:*/*",
+    "wss://127.0.0.1:*/*",
+    "ws://[::1]:*/*",
+    "wss://[::1]:*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://federico98x.github.io/CHESS/*",
+        "http://localhost:*/*",
+        "http://127.0.0.1:*/*",
+        "http://[::1]:*/*",
+        "https://www.chess.com/*",
+        "https://lichess.org/*",
+        "https://playstrategy.org/*",
+        "https://www.pychess.org/*",
+        "https://chess.org/*",
+        "https://papergames.io/*",
+        "https://vole.wtf/kilobytes-gambit/",
+        "https://chess.coolmathgames.com/*",
+        "https://www.coolmathgames.com/0-chess/*",
+        "https://immortal.game/*",
+        "https://worldchess.com/*",
+        "http://chess.net/*",
+        "https://chess.net/*",
+        "https://www.freechess.club/*",
+        "https://*.chessclub.com/*",
+        "https://gameknot.com/*",
+        "https://chesstempo.com/*",
+        "https://www.redhotpawn.com/*",
+        "https://www.chessanytime.com/*",
+        "https://www.simplechess.com/*",
+        "https://chessworld.net/*",
+        "https://app.edchess.io/*"
+      ],
+      "js": ["CommLinkjs.js", "UniversalBoardDrawerjs.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
