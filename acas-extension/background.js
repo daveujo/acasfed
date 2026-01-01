@@ -1,7 +1,7 @@
 // A.C.A.S Extension Background Service Worker
 // Handles WebSocket connections and storage to bypass CSP restrictions
 
-const DEBUG = true;
+const DEBUG = false; // Set to true for verbose logging
 function log(...args) {
   if (DEBUG) console.log('[ACAS Background]', ...args);
 }
@@ -12,6 +12,9 @@ let wsUrl = 'ws://localhost:8080/ws';
 let wsReady = false;
 let wsConnected = false;
 let reconnectTimer = null;
+let reconnectAttempts = 0;
+const MAX_RECONNECT_DELAY = 30000; // Max 30 seconds
+const BASE_RECONNECT_DELAY = 3000; // Start at 3 seconds
 let subscribedTabs = new Set();
 
 // Tab-specific message handlers
@@ -75,6 +78,7 @@ function connectWebSocket(url) {
       log('✅ Connected');
       wsConnected = true;
       wsReady = false;
+      reconnectAttempts = 0; // Reset reconnect attempts on successful connection
       
       // Subscribe to engine output
       ws.send('sub');
@@ -132,12 +136,17 @@ function connectWebSocket(url) {
       wsReady = false;
       broadcastToTabs({ type: 'ws-disconnected', connected: false });
       
-      // Auto-reconnect after 3 seconds
+      // Auto-reconnect with exponential backoff
       if (reconnectTimer) clearTimeout(reconnectTimer);
+      
+      // Calculate delay with exponential backoff: baseDelay * 2^attempts, capped at MAX_RECONNECT_DELAY
+      const delay = Math.min(BASE_RECONNECT_DELAY * Math.pow(2, reconnectAttempts), MAX_RECONNECT_DELAY);
+      reconnectAttempts++;
+      
+      log(`Auto-reconnecting in ${delay}ms (attempt ${reconnectAttempts})...`);
       reconnectTimer = setTimeout(() => {
-        log('Auto-reconnecting...');
         connectWebSocket(wsUrl);
-      }, 3000);
+      }, delay);
     };
   } catch (err) {
     log('Failed to connect:', err);
@@ -229,7 +238,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case 'gm-notification':
           chrome.notifications.create({
             type: 'basic',
-            iconUrl: 'https://raw.githubusercontent.com/Federico98x/CHESS/main/assets/images/logo-192.png',
+            iconUrl: chrome.runtime.getURL('icon.svg'),
             title: message.title || 'A.C.A.S',
             message: message.text || ''
           });

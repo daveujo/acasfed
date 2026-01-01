@@ -4,7 +4,9 @@
   "version": "2.3.7",
   "description": "Enhance your chess performance with a cutting-edge real-time move analysis and strategy assistance system",
   "icons": {
-    "192": "https://raw.githubusercontent.com/Federico98x/CHESS/main/assets/images/logo-192.png"
+    "48": "icon.svg",
+    "96": "icon.svg",
+    "192": "icon.svg"
   },
   "permissions": [
     "storage",

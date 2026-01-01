@@ -64,6 +64,23 @@ The extension uses `chrome.storage.local` for storing settings, which replaces t
 
 Settings are shared across all tabs and persist across browser sessions.
 
+## Security Considerations
+
+### WebSocket Permissions
+The extension requires wildcard port permissions for localhost WebSocket connections (`ws://localhost:*/*`). This is necessary because the external chess engine can run on any port (default is 8080, but users may configure different ports).
+
+**Security Notes:**
+- Only localhost/127.0.0.1/[::1] addresses are permitted
+- The extension does NOT connect to remote servers via WebSocket
+- Users should ensure they trust the external engine server running on their machine
+- Consider running the external engine server with authentication enabled (see `inter/README.md`)
+
+### Debug Mode
+Debug mode is disabled by default in production builds. If you need to enable debug logging for troubleshooting:
+1. Edit `background.js` and set `DEBUG = true`
+2. Edit `content.js` and set `debugModeActivated = true`
+3. Reload the extension
+
 ## Features
 
 - ✅ Bypasses CSP restrictions on strict sites like Lichess
